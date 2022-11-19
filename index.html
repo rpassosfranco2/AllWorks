@@ -12,25 +12,21 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
+<style>
+.container {
+    width: 500px;
+    height: 500px;
+}
+
+/* Resize images */
+.container img {
+    width: 100%;
+    height: auto;
+}
+</style>
 <script type="text/javascript">
-/*
-function slide1(){
-	document.getElementById('photos_id').src="images/AWS/1.jpg";
-	setTimeout("slide2()", 1000)
-}
-
-function slide2(){
-	document.getElementById('photos_id').src="images/AWS/2.jpg";
-	setTimeout("slide3()", 1000)
-}
-
-function slide3(){
-	document.getElementById('photos_id').src="images/AWS/3.jpg";
-	setTimeout("slide1()", 1000)
-}
-*/
 function muda_foto (){
-  var step = Math.floor(Math.random() * 22);
+  var step = Math.floor(Math.random() * 16);
   document.getElementById('photos_id').src="images/AWS/"+step+".jpg";
 }
 
@@ -67,7 +63,7 @@ function slide_completo(){
 
       <div class="banner-image">
         <!--<img src="images/main-banner.svg" alt="Banner do Trafalgar">-->
-		<img id="photos_id" width="500px" height="400px" src="images/logo.png">
+		<img id="photos_id" src="images/logo.png" class="container">
       </div>
     </section>
 
