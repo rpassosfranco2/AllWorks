@@ -26,6 +26,7 @@ function busca_cotacao(){
    { "email": "rpassosfranco@gmail.com", "password": "CUP475816"}
   )
   
+  
   $.ajax({
     url: serviceUrl,
     type: "POST",
@@ -33,15 +34,25 @@ function busca_cotacao(){
     data: payload,
     contentType: "application/json",
 	crossDomain: true,
-	headers: { 'Access-Control-Allow-Origin': '*' },
-	success: function(result) {
-		 console.log( result );
-		 $('#result').html(result);
+	async: true,
+	headers: { 
+  	  'Access-Control-Allow-Origin': '*',
+	  'Content-Type': 'application/json',
+      'Accept': 'application/json'
 	},
-	error: function (xhr, status, err) {
-        console.log(xhr);
-		$('#result').html(err);
+	beforeSend: function(xhr) {
+		xhr.setRequestHeader("Access-Control-Allow-Origin","*")
+		xhr.setRequestHeader("X-Permitted-Cross-Domain-Policies","none")
+	},
+	success: function(result) {
+		 console.log( result )
+		 $('#result').html(result)
+	},
+	error: function (xhr) {
+        console.log(xhr)
+		$('#result').html(xhr.statusText)
     }
+	
    });
  
 }
