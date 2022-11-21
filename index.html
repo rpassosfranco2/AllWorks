@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
   <title>Home | AllWorks</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -39,7 +38,7 @@ function busca_cotacao(){
 		 $('#result').html(result);
 	},
 	error: function (xhr, status, err) {
-        console.log(xhr +"<br>"+ status  +"<br>"+ err);
+        console.log(xhr);
 		$('#result').html(err);
     }
    });
