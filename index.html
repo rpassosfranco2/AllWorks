@@ -13,9 +13,9 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/styles.css">
   <script
-  src="https://code.jquery.com/jquery-3.6.1.min.js"
-  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-  crossorigin="anonymous"></script>
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
 </head>
 <script type="text/javascript">
 function busca_cotacao(){
@@ -33,11 +33,14 @@ function busca_cotacao(){
     data: payload,
     contentType: "application/json",
 	crossDomain: true,
+	headers: { 'Access-Control-Allow-Origin': '*' },
 	success: function(result) {
 		 console.log( result );
+		 $('#result').html(result);
 	},
 	error: function (xhr, status, err) {
         console.log(xhr +"<br>"+ status  +"<br>"+ err);
+		$('#result').html(err);
     }
    });
  
