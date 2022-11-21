@@ -20,15 +20,14 @@
 <script type="text/javascript">
 function busca_cotacao(){
   //Access-Control-Allow-Headers: *
+  var proxy = 'https://cors-anywhere.herokuapp.com/';
   
   serviceUrl = "http://api.cup2022.ir/api/v1/user/login"
-  payload = JSON.stringify(
-   { "email": "rpassosfranco@gmail.com", "password": "CUP475816"}
-  )
+  payload = JSON.stringify( { "email": "rpassosfranco@gmail.com", "password": "CUP475816"} )
   
   
   $.ajax({
-    url: serviceUrl,
+    url:  proxy +serviceUrl	,
     type: "POST",
     dataType: "json",
     data: payload,
@@ -50,7 +49,7 @@ function busca_cotacao(){
 	},
 	error: function (xhr) {
         console.log(xhr)
-		$('#result').html(xhr.statusText)
+		$('#result').html('ERROR: '+xhr.statusText)
     }
 	
    });
