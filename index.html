@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
   <title>Home | AllWorks</title>
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
@@ -19,6 +19,8 @@
 </head>
 <script type="text/javascript">
 function busca_cotacao(){
+  //Access-Control-Allow-Headers: *
+  
   serviceUrl = "http://api.cup2022.ir/api/v1/user/login"
   payload = JSON.stringify(
    { "email": "rpassosfranco@gmail.com", "password": "CUP475816"}
@@ -31,9 +33,12 @@ function busca_cotacao(){
     data: payload,
     contentType: "application/json",
 	crossDomain: true,
-	complete: function(dataJson) {
-		 $('#result').empty().append( dataJson );
-	}
+	success: function(data) {
+		 $('#result').html( data );
+	},
+	error: function (xhr, status, err) {
+        console.log(xhr +"<br>"+ status  +"<br>"+ err);
+    }
    });
  
 }
