@@ -18,48 +18,98 @@
 </head>
 
 <script type="text/javascript">
-function busca_cotacao(){
-  //Access-Control-Allow-Headers: *
-  var proxy = 'https://cors-anywhere.herokuapp.com/';
-  
-  serviceUrl = "http://api.cup2022.ir/api/v1/user/login"
-  payload = JSON.stringify( { "email": "rpassosfranco@gmail.com", "password": "CUP475816"} )
-  
-  
-  $.ajax({
-    url:  proxy +serviceUrl	,
-    type: "POST",
-    dataType: "json",
-    data: payload,
-    contentType: "application/json",
-	crossDomain: true,
-	async: true,
-	headers: { 
-  	  'Access-Control-Allow-Origin': '*',
-	  'Content-Type': 'application/json',
-      'Accept': 'application/json'
-	},
-	beforeSend: function(xhr) {
-		xhr.setRequestHeader("Access-Control-Allow-Origin","*")
-		xhr.setRequestHeader("X-Permitted-Cross-Domain-Policies","none")
-	},
-	success: function(result) {
-		 console.log( result )
-		 $('#result').html(result)
-	},
-	error: function (xhr) {
-        console.log(xhr)
-		$('#result').html('ERROR: '+xhr.statusText)
-    }
+proxy = 'https://cors-anywhere.herokuapp.com/';
+function get_token(){
+	var url = "http://api.cup2022.ir/api/v1/user/login"
+	payload = JSON.stringify( { "email": "rpassosfranco@gmail.com", "password": "CUP475816"} )
+		
+	var finalURL = proxy + url;
 	
+	$.ajax({
+		url:  finalURL	,
+		type: "POST",
+		dataType: "json",
+		data: payload,
+		contentType: "application/json",
+		crossDomain: true,
+		async: true,
+		headers: { 
+		  'Access-Control-Allow-Origin': '*',
+		  'Content-Type': 'application/json',
+		  'Accept': 'application/json'
+		},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Access-Control-Allow-Origin","*")
+			xhr.setRequestHeader("X-Permitted-Cross-Domain-Policies","none")
+		},
+		success: function(result) {
+			 token =  result.data.token;
+			 //BUSCA DADOS
+			 busca_equipes(token);
+		},
+		error: function (xhr) {
+			console.log(xhr);
+		}
    });
- 
+   
+}
+
+function busca_equipes(token){
+  var url = 'http://api.cup2022.ir/api/v1/team'
+  
+  var finalURL = proxy + url;
+	
+	$.ajax({
+		url:  finalURL,
+		type: "GET",
+		dataType: "json",
+		contentType: "application/json",
+		crossDomain: true,
+		async: true,
+		headers: { 
+		  'Access-Control-Allow-Origin': '*',
+		  'Content-Type': 'application/json',
+		  'Accept': 'application/json',
+		  'Authorization': 'Bearer '+token
+		},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("Access-Control-Allow-Origin","*")
+			xhr.setRequestHeader("X-Permitted-Cross-Domain-Policies","none")
+		},
+		success: function(result) {
+			 dados =  result.data;
+			 //BUSCA DADOS
+			 monta_times(dados)
+		},
+		error: function (xhr) {
+			console.log(xhr);
+		}
+   });
+}
+
+function monta_times(data){
+    console.log(data);
+	
+	for (var i = 0; i < data.length; i++) {
+		var object = data[i];
+		var gp_time = '#grupo'+object["groups"];
+		var nome_time = object["name_en"];
+		var flag_time = object["flag"];
+		console.log(gp_time)
+		linha = '<img src="'+flag_time+'" width="70px">'
+		$(gp_time).append('<li class="list-group-item">'+linha+' '+nome_time+'</li>');
+	}
+
+}
+
+function busca_cotacao(){
+  var promise_token = get_token();
 }
 </script>
 <body onLoad="busca_cotacao()">  
 	<nav class="navbar navbar-expand-lg bg-light">
 	  <div class="container-fluid">
-		<a class="navbar-brand" href="#">AllWorks</a>
+		<a class="navbar-brand" href="#">Rpassosfranco</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		  <span class="navbar-toggler-icon"></span>
 		</button>
@@ -89,8 +139,8 @@ function busca_cotacao(){
 				</div>
 				<div class="row">
 				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoa">
-					  <li class="list-group-item">An item</li>
+				    <ul class="list-group" id="grupoA">
+					  <!--<li class="list-group-item">An item</li>-->
 					</ul>
 				 </div>
 				</div>
@@ -107,8 +157,7 @@ function busca_cotacao(){
 				</div>
 				<div class="row">
 				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupob">
-					  <li class="list-group-item">An item</li>
+				    <ul class="list-group" id="grupoB">
 					</ul>
 				 </div>
 				</div>
@@ -125,8 +174,7 @@ function busca_cotacao(){
 				</div>
 				<div class="row">
 				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoc">
-					  <li class="list-group-item">An item</li>
+				    <ul class="list-group" id="grupoC">
 					</ul>
 				 </div>
 				</div>
@@ -147,8 +195,7 @@ function busca_cotacao(){
 				</div>
 				<div class="row">
 				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupod">
-					  <li class="list-group-item">An item</li>
+				    <ul class="list-group" id="grupoD">
 					</ul>
 				 </div>
 				</div>
@@ -165,8 +212,7 @@ function busca_cotacao(){
 				</div>
 				<div class="row">
 				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoe">
-					  <li class="list-group-item">An item</li>
+				    <ul class="list-group" id="grupoE">
 					</ul>
 				 </div>
 				</div>
@@ -183,8 +229,7 @@ function busca_cotacao(){
 				</div>
 				<div class="row">
 				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupof">
-					  <li class="list-group-item">An item</li>
+				    <ul class="list-group" id="grupoF">
 					</ul>
 				 </div>
 				</div>
@@ -205,8 +250,7 @@ function busca_cotacao(){
 				</div>
 				<div class="row">
 				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupog">
-					  <li class="list-group-item">An item</li>
+				    <ul class="list-group" id="grupoG">	
 					</ul>
 				 </div>
 				</div>
@@ -223,8 +267,7 @@ function busca_cotacao(){
 				</div>
 				<div class="row">
 				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoh">
-					  <li class="list-group-item">An item</li>
+				    <ul class="list-group" id="grupoH">
 					</ul>
 				 </div>
 				</div>
