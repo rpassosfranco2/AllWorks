@@ -33,8 +33,8 @@ function busca_cotacao(){
     data: payload,
     contentType: "application/json",
 	crossDomain: true,
-	success: function(data) {
-		 $('#result').html( data );
+	success: function(result) {
+		 console.log( result );
 	},
 	error: function (xhr, status, err) {
         console.log(xhr +"<br>"+ status  +"<br>"+ err);
