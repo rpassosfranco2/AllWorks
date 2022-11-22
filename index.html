@@ -16,13 +16,23 @@
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"></script>
 </head>
+<style>
+	img {
+	border: 2px solid #555;
+	}
+</style>
 <script type="text/javascript">
 proxy = 'https://cors-anywhere.herokuapp.com/';
+
+
 function get_token(){
+    $('#result').empty().html('AUTENTICANDO...');
+	
 	var url = "http://api.cup2022.ir/api/v1/user/login"
 	payload = JSON.stringify( { "email": "rpassosfranco@gmail.com", "password": "CUP475816"} )
 		
 	var finalURL = proxy + url;
+	console.log(finalURL);
 	
 	$.ajax({
 		url:  finalURL	,
@@ -44,7 +54,7 @@ function get_token(){
 		success: function(result) {
 			 token =  result.data.token;
 			 //BUSCA DADOS
-			 busca_equipes(token);
+			 busca_dados(token);
 		},
 		error: function (xhr) {
 			console.log(xhr);
@@ -53,18 +63,20 @@ function get_token(){
    
 }
 
-function busca_equipes(token){
-  var url = 'http://api.cup2022.ir/api/v1/team'
+function busca_dados(token){
+  $('#result').empty().html('BUSCANDO DADOS...');
+  //var url = 'http://api.cup2022.ir/api/v1/team'
+  var url_equipe = 'http://api.cup2022.ir/api/v1/match/'
   
-  var finalURL = proxy + url;
-	
-	$.ajax({
+  var finalURL = proxy + url_equipe;
+  console.log(finalURL);
+		
+  $.ajax({
 		url:  finalURL,
 		type: "GET",
 		dataType: "json",
 		contentType: "application/json",
 		crossDomain: true,
-		async: true,
 		headers: { 
 		  'Access-Control-Allow-Origin': '*',
 		  'Content-Type': 'application/json',
@@ -77,8 +89,8 @@ function busca_equipes(token){
 		},
 		success: function(result) {
 			 dados =  result.data;
-			 //BUSCA DADOS
-			 monta_times(dados)
+			 $('#result').empty().html('MONTANDO GRADE...');
+			 monta_resultado(dados);
 		},
 		error: function (xhr) {
 			console.log(xhr);
@@ -101,8 +113,154 @@ function monta_times(data){
 
 }
 
+function monta_resultado(data){
+    
+	for (var i = 0; i < data.length; i++) {
+		var object = data[i];
+		var gp_time = '#grupo'+object["group"];
+		
+
+		
+		if (parseInt(object["id"]) > '16'){
+		//if (object["time_elapsed"] != 'finished'){
+			 continue; 
+			 console.log(object);
+		}
+		
+		var home_name  = object["home_team_en"];
+		var home_flag  = object["home_flag"];
+		var home_score = object["home_score"];
+		
+		var away_name  = object["away_team_en"];
+		var away_flag  = object["away_flag"];
+		var away_score = object["away_score"];
+		
+		var card_template = '<li class="list-group-item">'+
+         '<div class="row">'+
+		     '<div class="col-sm-6">'+
+			  '<img src="'+home_flag+'" width="70px" height="46px">&nbsp;&nbsp;'+home_name+'&nbsp;&nbsp; : '+
+			  '<b>'+home_score+'</b>'+
+			 '</div>'+
+			 '<div class="col-sm-6">'+
+			  '<img src="'+away_flag+'" width="70px">&nbsp;&nbsp;'+away_name+'&nbsp;&nbsp; : '+
+			  '<b>'+away_score+'</b>'+
+			 '</div>'+
+		   '</div>'+
+		'</li>';
+		
+		$(gp_time).append(card_template)
+	}
+	$('#result').empty();
+}
+///  CALENDARIOS 
+
+
+function createGame(icon, hour, icon2){
+ return ''+
+  '<li>'+
+	`<a href="https://www.google.com/search?q=seleção+${icon}">`+
+	`<img src="./assets/${icon}.svg" alt="bandeira ${icon}"/>`+
+    '</a>'+
+        `<strong>${hour}</strong>`+
+		`<a href="https://www.google.com/search?q=seleção+${icon2}">`+
+		 `<img src="./assets/${icon2}.svg" alt="bandeira ${icon2}"/>`+
+		'</a>'+
+   '</li>'
+}
+
+let delay = -0.2;
+function createCard(date, day, games) {
+  delay = delay + 0.3;
+  return ''+ 
+    `<div class="card" style="animation-delay: ${delay}s">`+
+    `  <h2>${date} <span>${day}</span></h2>`+
+    '    <ul>'+
+    `      ${games}`+
+    '   </ul>'+
+    '</div>'
+}
+
+function calendario_copa2022(){
+	document.querySelector("#cards").innerHTML = 
+	createCard('20/11', 'domingo',
+	  createGame('qatar', '13:00', 'ecuador'))+
+
+	createCard('21/11', 'segunda',
+	  createGame('england', '10:00', 'iran')+
+	  createGame('senegal', '13:00', 'netherlands')+
+	  createGame('united states','16:00','wales'))+
+
+	createCard('22/11', 'terça',
+	  createGame('argentina', '07:00', 'saudi arabia')+
+	  createGame('denmark','10:00','tunisia')+
+	  createGame('senegal','13:00','netherlands')+
+	  createGame('france', '16:00', 'australia'))+
+
+	createCard('23/11', 'quarta',
+	  createGame('morocco', '07:00', 'croatia')+
+	  createGame('germany', '10:00', 'japan')+
+	  createGame('spain','13:00','costa rica')+
+	  createGame('belgium', '16:00', 'canada'))+
+	  
+
+	createCard('24/11', 'quinta',
+	  createGame('switzerland', '07:00', 'cameroon')+
+	  createGame('uruguay', '10:00', 'south korea')+
+	  createGame('portugal', '13:00', 'ghana')+
+	  createGame('brazil', '16:00', 'serbia'))+
+
+	createCard('25/11', 'sexta',
+	  createGame('wales', '07:00', 'iran')+
+	  createGame('qatar', '10:00', 'senegal')+
+	  createGame('netherlands', '13:00', 'ecuador')+
+	  createGame('england', '16:00', 'united states'))+
+	  
+	createCard('26/11', 'sabado',
+	  createGame('tunisia', '07:00', 'australia')+
+	  createGame('poland', '10:00', 'saudi arabia')+
+	  createGame('france', '13:00', 'denmark')+
+	  createGame('argentina', '16:00', 'mexico'))+
+
+	createCard('27/11', 'domingo',  
+	  createGame('japan', '07:00', 'costa rica')+
+	  createGame('belgium', '10:00', 'morocco')+
+	  createGame('croatia', '13:00', 'canada')+
+	  createGame('spain', '16:00', 'germany'))+
+
+	createCard('28/11', 'segunda',
+	  createGame('cameroon', '07:00', 'serbia')+
+	  createGame('south korea', '10:00', 'ghana')+
+	  createGame('brazil', '13:00', 'switzerland')+ 
+	  createGame('portugal','16:00','uruguay'))+
+
+	createCard('29/11', 'terça',
+	  createGame('ecuador', '12:00', 'senegal')+
+	  createGame('netherlands', '12:00', 'qatar')+
+	  createGame('iran', '16:00', 'united states')+ 
+	  createGame('wales','16:00','england'))+
+	  
+	createCard('30/11', 'quarta',
+	  createGame('tunisia', '12:00', 'france')+
+	  createGame('australia', '12:00', 'denmark')+
+	  createGame('poland', '16:00', 'argentina')+ 
+	  createGame('saudi arabia','16:00','mexico'))+
+
+	createCard('01/12', 'quinta',
+	  createGame('croatia', '12:00', 'belgium')+
+	  createGame('canada', '12:00', 'morocco')+
+	  createGame('japan', '16:00', 'spain')+ 
+	  createGame('costa rica','16:00','germany'))+
+
+	createCard('02/12', 'sexta',
+	  createGame('south korea', '12:00', 'portugal')+
+	  createGame('ghana', '12:00', 'uruguay')+
+	  createGame('serbia', '16:00', 'switzerland')+ 
+	  createGame('cameroon','16:00','brazil'))
+}
+
 function busca_cotacao(){
-  var promise_token = get_token();
+   get_token();
+  //calendario_copa2022();
 }
 </script>
 <body onLoad="busca_cotacao()">  
@@ -126,7 +284,7 @@ function busca_cotacao(){
 	  </div>
 	</nav>
 	<div id="result"></div>
-	<div class="container">
+	<div class="container-fluid" id="cards">
 	  <div class="row">
 		<div class="col-sm-4">
 		    <div class="card">
@@ -140,6 +298,9 @@ function busca_cotacao(){
 				 <div class="col-sm-12">
 				    <ul class="list-group" id="grupoA">
 					  <!--<li class="list-group-item">An item</li>-->
+					  
+					 
+					  
 					</ul>
 				 </div>
 				</div>
@@ -239,7 +400,7 @@ function busca_cotacao(){
 	  <br>
 	  
 	  <div class="row">
-		<div class="col-sm-6">
+		<div class="col-sm-4">
 		    <div class="card">
 			  <div class="card-body">
 				<div class="row">
@@ -256,7 +417,7 @@ function busca_cotacao(){
 			  </div>
 			</div>
 		</div>
-		<div class="col-sm-6">
+		<div class="col-sm-4">
 		    <div class="card">
 			  <div class="card-body">
 				<div class="row">
@@ -274,119 +435,7 @@ function busca_cotacao(){
 			</div>
 		</div>
 	  </div>
-	  <br>
 	  
-	  <!--
-	  <div class="row">
-		<div class="col-sm-6">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">OIBR3</h5>
-				  </div>
-				</div>
-				<div class="row">
-				 <div class="col-sm-6">
-				   <h6 class="card-subtitle mb-2 text-muted">Cotação
-				   <br>
-				   R$ 1.02
-				   </h6>
-				 </div>
-				 <div class="col-sm-6">
-				   <h6 class="card-subtitle mb-2 text-muted">Nº Cotas
-				   <br>
-				   100
-				   </h6>
-				 </div>
-				</div>
-			  </div>
-			</div>
-		</div>
-	   <div class="col-sm-6">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">OIBR3</h5>
-				  </div>
-				</div>
-				<div class="row">
-				 <div class="col-sm-6">
-				   <h6 class="card-subtitle mb-2 text-muted">Cotação
-				   <br>
-				   R$ 1.02
-				   </h6>
-				 </div>
-				 <div class="col-sm-6">
-				   <h6 class="card-subtitle mb-2 text-muted">Nº Cotas
-				   <br>
-				   100
-				   </h6>
-				 </div>
-				</div>
-			  </div>
-			</div>
-		</div>
-	  </div>
-	  
-	  <br>
-	  <div class="row">
-		<div class="col-sm-6">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">OIBR3</h5>
-				  </div>
-				</div>
-				<div class="row">
-				 <div class="col-sm-6">
-				   <h6 class="card-subtitle mb-2 text-muted">Cotação
-				   <br>
-				   R$ 1.02
-				   </h6>
-				 </div>
-				 <div class="col-sm-6">
-				   <h6 class="card-subtitle mb-2 text-muted">Nº Cotas
-				   <br>
-				   100
-				   </h6>
-				 </div>
-				</div>
-				<a href="#" class="btn btn-primary">Go somewhere</a>
-			  </div>
-			</div>
-		</div>
-	   <div class="col-sm-6">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">OIBR3</h5>
-				  </div>
-				</div>
-				<div class="row">
-				 <div class="col-sm-6">
-				   <h6 class="card-subtitle mb-2 text-muted">Cotação
-				   <br>
-				   R$ 1.02
-				   </h6>
-				 </div>
-				 <div class="col-sm-6">
-				   <h6 class="card-subtitle mb-2 text-muted">Nº Cotas
-				   <br>
-				   100
-				   </h6>
-				 </div>
-				</div>
-				<a href="#" class="btn btn-primary">Go somewhere</a>
-			  </div>
-			</div>
-		</div>
-	  </div>
-	  -->
-
     </div>
 </body>
 </html>
