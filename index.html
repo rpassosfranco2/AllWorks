@@ -1,20 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Home | AllWorks</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Home | AllWorks</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <script>
+	/**
+	 * This script will set the 'initial-scale' value on the viewport metatag
+	 * The scale is used to fit the template on Kindle Fire mobile devices
+	 * This must be handled in the head of the document because the scale
+	 * is not affected once the page finishes loading
+	 */
+	var vp = document.getElementById('viewport');
+
+	var initialScale = Math.max(screen.width, screen.height)/1920;
+
+	vp.setAttribute('content','width=device-width, initial-scale=' + initialScale + ', maximum-scale=' + initialScale, + 'minimum-scale=' + initialScale);
+  </script>
+  <link rel="preconnect" 
+        href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/styles.css">
-  <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
+        rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+		integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" 
+		crossorigin="anonymous">
+  <link rel="stylesheet" 
+        href="css/reset.css">
+  <link rel="stylesheet" type="text/css" href="firetv.css" inline>
+  <link rel="stylesheet" 
+        href="css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+          integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+          crossorigin="anonymous"></script>
 </head>
 <style>
 	img {
@@ -163,8 +182,7 @@ function monta_resultado(data){
 	$('#result').empty();
 }
 ///  CALENDARIOS 
-
-
+/*
 function createGame(icon, hour, icon2){
  return ''+
   '<li>'+
@@ -191,7 +209,7 @@ function createCard(date, day, games) {
 }
 
 function calendario_copa2022(){
-	document.querySelector("#cards").innerHTML = 
+	document.querySelector("#app-containers").innerHTML = 
 	createCard('20/11', 'domingo',
 	  createGame('qatar', '13:00', 'ecuador'))+
 
@@ -267,10 +285,9 @@ function calendario_copa2022(){
 	  createGame('serbia', '16:00', 'switzerland')+ 
 	  createGame('cameroon','16:00','brazil'))
 }
-
+*/
 function busca_cotacao(){
    get_token();
-  //calendario_copa2022();
 }
 </script>
 <body onLoad="busca_cotacao()">  
@@ -295,7 +312,7 @@ function busca_cotacao(){
 	</nav>
 	<div id="result"></div>
 	<br>
-	<div class="container-fluid" id="cards" style="padding: 30px">
+	<div class="container-fluid" id="app-container" style="padding: 30px">
 	  <div class="row">
 		<div class="col-sm-4">
 		    <div class="card">
@@ -445,5 +462,15 @@ function busca_cotacao(){
 	  </div>
 	  
     </div>
+
+	<!-- Spinner for startup -->
+	<!--
+    <div id="app-overlay" class="app-overlay-container">
+        <div id="overlay-message" class="app-overlay-message"></div>
+    </div>
+    <div id="app-loading-spinner" class="content-load-spinner">
+    </div>
+    -->
+
 </body>
 </html>
