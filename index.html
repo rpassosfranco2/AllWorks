@@ -13,9 +13,7 @@
 	 * is not affected once the page finishes loading
 	 */
 	var vp = document.getElementById('viewport');
-
 	var initialScale = Math.max(screen.width, screen.height)/1920;
-
 	vp.setAttribute('content','width=device-width, initial-scale=' + initialScale + ', maximum-scale=' + initialScale, + 'minimum-scale=' + initialScale);
   </script>
   <link rel="preconnect" 
@@ -47,194 +45,188 @@
       background-color: #141313;
     }
 </style>
-<!--<body onLoad="get_token()">  -->
 	<body>
-	<div id="result" style="color: #FFFFFF"></div>
-	<br>
-	<div class="container-fluid" id="app-container">
-	  <div class="row">
-		<div class="col-sm-4">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">GRUPO A</h5>
-				  </div>
+		<div id="result" style="color: #FFFFFF"></div>
+		<br>
+		<div class="container-fluid" id="app-container">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="card">
+				<div class="card-body">
+					<div class="row">
+					<div class="col-sm-12">
+						<h5 class="card-title">GRUPO A</h5>
+					</div>
+					</div>
+					<div class="row">
+					<div class="col-sm-12">
+						<ul class="list-group" id="grupoA">
+						<!--<li class="list-group-item">An item</li>-->
+						</ul>
+					</div>
+					</div>
 				</div>
-				<div class="row">
-				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoA">
-					  <!--<li class="list-group-item">An item</li>-->
-					</ul>
-				 </div>
 				</div>
-			  </div>
+			</div>
+			<div class="col-sm-4">
+				<div class="card">
+				<div class="card-body">
+					<div class="row">
+					<div class="col-sm-12">
+						<h5 class="card-title">GRUPO B</h5>
+					</div>
+					</div>
+					<div class="row">
+					<div class="col-sm-12">
+						<ul class="list-group" id="grupoB">
+						</ul>
+					</div>
+					</div>
+				</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="card">
+				<div class="card-body">
+					<div class="row">
+					<div class="col-sm-12">
+						<h5 class="card-title">GRUPO C</h5>
+					</div>
+					</div>
+					<div class="row">
+					<div class="col-sm-12">
+						<ul class="list-group" id="grupoC">
+						</ul>
+					</div>
+					</div>
+				</div>
+				</div>
 			</div>
 		</div>
-		<div class="col-sm-4">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">GRUPO B</h5>
-				  </div>
+		<br>
+		
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="card">
+				<div class="card-body">
+					<div class="row">
+					<div class="col-sm-12">
+						<h5 class="card-title">GRUPO D</h5>
+					</div>
+					</div>
+					<div class="row">
+					<div class="col-sm-12">
+						<ul class="list-group" id="grupoD">
+						</ul>
+					</div>
+					</div>
 				</div>
-				<div class="row">
-				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoB">
-					</ul>
-				 </div>
 				</div>
-			  </div>
+			</div>
+			<div class="col-sm-4">
+				<div class="card">
+				<div class="card-body">
+					<div class="row">
+					<div class="col-sm-12">
+						<h5 class="card-title">GRUPO E</h5>
+					</div>
+					</div>
+					<div class="row">
+					<div class="col-sm-12">
+						<ul class="list-group" id="grupoE">
+						</ul>
+					</div>
+					</div>
+				</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="card">
+				<div class="card-body">
+					<div class="row">
+					<div class="col-sm-12">
+						<h5 class="card-title">GRUPO F</h5>
+					</div>
+					</div>
+					<div class="row">
+					<div class="col-sm-12">
+						<ul class="list-group" id="grupoF">
+						</ul>
+					</div>
+					</div>
+				</div>
+				</div>
 			</div>
 		</div>
-		<div class="col-sm-4">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">GRUPO C</h5>
-				  </div>
+		<br>
+		
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="card">
+				<div class="card-body">
+					<div class="row">
+					<div class="col-sm-12">
+						<h5 class="card-title">GRUPO G</h5>
+					</div>
+					</div>
+					<div class="row">
+					<div class="col-sm-12">
+						<ul class="list-group" id="grupoG">	
+						</ul>
+					</div>
+					</div>
 				</div>
-				<div class="row">
-				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoC">
-					</ul>
-				 </div>
 				</div>
-			  </div>
+			</div>
+			<div class="col-sm-4">
+				<div class="card">
+				<div class="card-body">
+					<div class="row">
+					<div class="col-sm-12">
+						<h5 class="card-title">GRUPO H</h5>
+					</div>
+					</div>
+					<div class="row">
+					<div class="col-sm-12">
+						<ul class="list-group" id="grupoH">
+						</ul>
+					</div>
+					</div>
+				</div>
+				</div>
 			</div>
 		</div>
-	  </div>
-	  <br>
-	  
-	  <div class="row">
-		<div class="col-sm-4">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">GRUPO D</h5>
-				  </div>
-				</div>
-				<div class="row">
-				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoD">
-					</ul>
-				 </div>
-				</div>
-			  </div>
-			</div>
-		</div>
-		<div class="col-sm-4">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">GRUPO E</h5>
-				  </div>
-				</div>
-				<div class="row">
-				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoE">
-					</ul>
-				 </div>
-				</div>
-			  </div>
-			</div>
-		</div>
-		<div class="col-sm-4">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">GRUPO F</h5>
-				  </div>
-				</div>
-				<div class="row">
-				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoF">
-					</ul>
-				 </div>
-				</div>
-			  </div>
-			</div>
-		</div>
-	  </div>
-	  <br>
-	  
-	  <div class="row">
-		<div class="col-sm-4">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">GRUPO G</h5>
-				  </div>
-				</div>
-				<div class="row">
-				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoG">	
-					</ul>
-				 </div>
-				</div>
-			  </div>
-			</div>
-		</div>
-		<div class="col-sm-4">
-		    <div class="card">
-			  <div class="card-body">
-				<div class="row">
-				  <div class="col-sm-12">
-				    <h5 class="card-title">GRUPO H</h5>
-				  </div>
-				</div>
-				<div class="row">
-				 <div class="col-sm-12">
-				    <ul class="list-group" id="grupoH">
-					</ul>
-				 </div>
-				</div>
-			  </div>
-			</div>
-		</div>
-	  </div>
-	  
-    </div>
 
-	<!-- Spinner for startup -->
-	<!--
-    <div id="app-overlay" class="app-overlay-container">
-        <div id="overlay-message" class="app-overlay-message"></div>
-    </div>
-    <div id="app-loading-spinner" class="content-load-spinner">
-    </div>
-    -->
-
-	 <!-- App Header Template -->
-	 <script id="app-header-template" type="text/x-handlebars-template">
-        <div id="app-header-bar" class="app-top-bar">
-           <div class="app-logo"><img src="{{img_logo}}" /></div>
-       </div>
-     </script>
-
-	 <!-- Left Nav View Template -->
-	 <script id="left-nav-template" type="text/x-handlebars-template">
-        <div id="left-nav" class="leftnav-main-container">
-            <div id="left-nav-list-container" class="leftnav-menulist-expanded">
-                <div id="left-nav-scrolling-list" class="leftnav-menu-scrolling-list">
-                    {{#each leftNavItems}}
-                    <div class="leftnav-list-item-container">
-                        <div class="leftnav-list-item-static">
-                            {{this}}
-                        </div>
-                    </div>
-                    {{/each}}
-                </div>
-            </div>
-        </div>
-     </script>
-
-	 
+		</div>
+		
+		<!-- Spinner for startup -->
+		<div id="app-overlay" class="app-overlay-container">
+			<div id="overlay-message" class="app-overlay-message"></div>
+		</div>
+		<div id="app-loading-spinner" class="content-load-spinner">
+		</div>
+		
+		<!-- App Header Template -->
+		<script id="app-header-template" type="text/x-handlebars-template">
+			<div id="app-header-bar" class="app-top-bar">
+			<div class="app-logo"><img src="{{img_logo}}" /></div>
+		</div>
+		</script>
+		<!-- Left Nav View Template -->
+		<script id="left-nav-template" type="text/x-handlebars-template">
+			<div id="left-nav" class="leftnav-main-container">
+				<div id="left-nav-list-container" class="leftnav-menulist-expanded">
+					<div id="left-nav-scrolling-list" class="leftnav-menu-scrolling-list">
+						{{#each leftNavItems}}
+						<div class="leftnav-list-item-container">
+							<div class="leftnav-list-item-static">
+								{{this}}
+							</div>
+						</div>
+						{{/each}}
+					</div>
+				</div>
+			</div>
+		</script>
 	</body>
 </html>
