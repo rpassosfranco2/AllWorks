@@ -128,9 +128,10 @@ function monta_resultado(data){
 		if (parseInt(object["id"]) > '16'){
 		//if (object["time_elapsed"] != 'finished'){
 			 continue; 
-			 console.log(object);
 		}
 		
+		var data_jogo  = object["local_date"];
+
 		var home_name  = object["home_team_en"];
 		var home_flag  = object["home_flag"];
 		var home_score = object["home_score"];
@@ -140,7 +141,12 @@ function monta_resultado(data){
 		var away_score = object["away_score"];
 		
 		var card_template = '<li class="list-group-item">'+
-         '<div class="row">'+
+		'<div class="row">'+
+			'<div class="col-sm-6">'+
+				'<b>'+data_jogo+'</b>'+
+			'</div>'+	
+		'</div>'+
+		 '<div class="row">'+
 		     '<div class="col-sm-6">'+
 			  '<img src="'+home_flag+'" width="70px" height="46px">&nbsp;&nbsp;'+home_name+'&nbsp;&nbsp; : '+
 			  '<b>'+home_score+'</b>'+
