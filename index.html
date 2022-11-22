@@ -34,6 +34,9 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
           integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
           crossorigin="anonymous"></script>
+  <script src="assets/js/model-json.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/init.js"></script>
 </head>
 <style>
 	img {
@@ -44,273 +47,9 @@
       background-color: #141313;
     }
 </style>
-<script type="text/javascript">
-proxy = 'https://cors-anywhere.herokuapp.com/';
-
-
-function get_token(){
-    $('#result').empty().html('AUTENTICANDO...');
-	
-	var url = "http://api.cup2022.ir/api/v1/user/login"
-	payload = JSON.stringify( { "email": "rpassosfranco@gmail.com", "password": "CUP475816"} )
-		
-	var finalURL = proxy + url;
-	console.log(finalURL);
-	
-	$.ajax({
-		url:  finalURL	,
-		type: "POST",
-		dataType: "json",
-		data: payload,
-		contentType: "application/json",
-		crossDomain: true,
-		async: true,
-		headers: { 
-		  'Access-Control-Allow-Origin': '*',
-		  'Content-Type': 'application/json',
-		  'Accept': 'application/json'
-		},
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Access-Control-Allow-Origin","*")
-			xhr.setRequestHeader("X-Permitted-Cross-Domain-Policies","none")
-		},
-		success: function(result) {
-			 token =  result.data.token;
-			 //BUSCA DADOS
-			 busca_dados(token);
-		},
-		error: function (xhr) {
-			console.log(xhr);
-		}
-   });
-   
-}
-
-function busca_dados(token){
-  $('#result').empty().html('BUSCANDO DADOS...');
-  //var url = 'http://api.cup2022.ir/api/v1/team'
-  var url_equipe = 'http://api.cup2022.ir/api/v1/match/'
-  
-  var finalURL = proxy + url_equipe;
-  console.log(finalURL);
-		
-  $.ajax({
-		url:  finalURL,
-		type: "GET",
-		dataType: "json",
-		contentType: "application/json",
-		crossDomain: true,
-		headers: { 
-		  'Access-Control-Allow-Origin': '*',
-		  'Content-Type': 'application/json',
-		  'Accept': 'application/json',
-		  'Authorization': 'Bearer '+token
-		},
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Access-Control-Allow-Origin","*")
-			xhr.setRequestHeader("X-Permitted-Cross-Domain-Policies","none")
-		},
-		success: function(result) {
-			 dados =  result.data;
-			 $('#result').empty().html('MONTANDO GRADE...');
-			 monta_resultado(dados);
-		},
-		error: function (xhr) {
-			console.log(xhr);
-		}
-   });
-}
-
-function monta_times(data){
-    console.log(data);
-	
-	for (var i = 0; i < data.length; i++) {
-		var object = data[i];
-		var gp_time = '#grupo'+object["groups"];
-		var nome_time = object["name_en"];
-		var flag_time = object["flag"];
-		console.log(gp_time)
-		linha = '<img src="'+flag_time+'" width="70px">'
-		$(gp_time).append('<li class="list-group-item">'+linha+' '+nome_time+'</li>');
-	}
-
-}
-
-function monta_resultado(data){
-    
-	for (var i = 0; i < data.length; i++) {
-		var object = data[i];
-		var gp_time = '#grupo'+object["group"];
-		
-
-		
-		if (parseInt(object["id"]) > '16'){
-		//if (object["time_elapsed"] != 'finished'){
-			 continue; 
-		}
-		
-		var data_jogo  = object["local_date"];
-
-		var home_name  = object["home_team_en"];
-		var home_flag  = object["home_flag"];
-		var home_score = object["home_score"];
-		
-		var away_name  = object["away_team_en"];
-		var away_flag  = object["away_flag"];
-		var away_score = object["away_score"];
-		
-		var card_template = '<li class="list-group-item">'+
-		'<div class="row">'+
-			'<div class="col-sm-6">'+
-				'<b>'+data_jogo+'</b>'+
-			'</div>'+	
-		'</div>'+
-		 '<div class="row">'+
-		     '<div class="col-sm-6">'+
-			  '<img src="'+home_flag+'" width="70px" height="46px">&nbsp;&nbsp;'+home_name+'&nbsp;&nbsp; : '+
-			  '<b>'+home_score+'</b>'+
-			 '</div>'+
-			 '<div class="col-sm-6">'+
-			  '<img src="'+away_flag+'" width="70px">&nbsp;&nbsp;'+away_name+'&nbsp;&nbsp; : '+
-			  '<b>'+away_score+'</b>'+
-			 '</div>'+
-		   '</div>'+
-		'</li>';
-		
-		$(gp_time).append(card_template)
-	}
-	$('#result').empty();
-}
-///  CALENDARIOS 
-/*
-function createGame(icon, hour, icon2){
- return ''+
-  '<li>'+
-	`<a href="https://www.google.com/search?q=seleção+${icon}">`+
-	`<img src="./assets/${icon}.svg" alt="bandeira ${icon}"/>`+
-    '</a>'+
-        `<strong>${hour}</strong>`+
-		`<a href="https://www.google.com/search?q=seleção+${icon2}">`+
-		 `<img src="./assets/${icon2}.svg" alt="bandeira ${icon2}"/>`+
-		'</a>'+
-   '</li>'
-}
-
-let delay = -0.2;
-function createCard(date, day, games) {
-  delay = delay + 0.3;
-  return ''+ 
-    `<div class="card" style="animation-delay: ${delay}s">`+
-    `  <h2>${date} <span>${day}</span></h2>`+
-    '    <ul>'+
-    `      ${games}`+
-    '   </ul>'+
-    '</div>'
-}
-
-function calendario_copa2022(){
-	document.querySelector("#app-containers").innerHTML = 
-	createCard('20/11', 'domingo',
-	  createGame('qatar', '13:00', 'ecuador'))+
-
-	createCard('21/11', 'segunda',
-	  createGame('england', '10:00', 'iran')+
-	  createGame('senegal', '13:00', 'netherlands')+
-	  createGame('united states','16:00','wales'))+
-
-	createCard('22/11', 'terça',
-	  createGame('argentina', '07:00', 'saudi arabia')+
-	  createGame('denmark','10:00','tunisia')+
-	  createGame('senegal','13:00','netherlands')+
-	  createGame('france', '16:00', 'australia'))+
-
-	createCard('23/11', 'quarta',
-	  createGame('morocco', '07:00', 'croatia')+
-	  createGame('germany', '10:00', 'japan')+
-	  createGame('spain','13:00','costa rica')+
-	  createGame('belgium', '16:00', 'canada'))+
-	  
-
-	createCard('24/11', 'quinta',
-	  createGame('switzerland', '07:00', 'cameroon')+
-	  createGame('uruguay', '10:00', 'south korea')+
-	  createGame('portugal', '13:00', 'ghana')+
-	  createGame('brazil', '16:00', 'serbia'))+
-
-	createCard('25/11', 'sexta',
-	  createGame('wales', '07:00', 'iran')+
-	  createGame('qatar', '10:00', 'senegal')+
-	  createGame('netherlands', '13:00', 'ecuador')+
-	  createGame('england', '16:00', 'united states'))+
-	  
-	createCard('26/11', 'sabado',
-	  createGame('tunisia', '07:00', 'australia')+
-	  createGame('poland', '10:00', 'saudi arabia')+
-	  createGame('france', '13:00', 'denmark')+
-	  createGame('argentina', '16:00', 'mexico'))+
-
-	createCard('27/11', 'domingo',  
-	  createGame('japan', '07:00', 'costa rica')+
-	  createGame('belgium', '10:00', 'morocco')+
-	  createGame('croatia', '13:00', 'canada')+
-	  createGame('spain', '16:00', 'germany'))+
-
-	createCard('28/11', 'segunda',
-	  createGame('cameroon', '07:00', 'serbia')+
-	  createGame('south korea', '10:00', 'ghana')+
-	  createGame('brazil', '13:00', 'switzerland')+ 
-	  createGame('portugal','16:00','uruguay'))+
-
-	createCard('29/11', 'terça',
-	  createGame('ecuador', '12:00', 'senegal')+
-	  createGame('netherlands', '12:00', 'qatar')+
-	  createGame('iran', '16:00', 'united states')+ 
-	  createGame('wales','16:00','england'))+
-	  
-	createCard('30/11', 'quarta',
-	  createGame('tunisia', '12:00', 'france')+
-	  createGame('australia', '12:00', 'denmark')+
-	  createGame('poland', '16:00', 'argentina')+ 
-	  createGame('saudi arabia','16:00','mexico'))+
-
-	createCard('01/12', 'quinta',
-	  createGame('croatia', '12:00', 'belgium')+
-	  createGame('canada', '12:00', 'morocco')+
-	  createGame('japan', '16:00', 'spain')+ 
-	  createGame('costa rica','16:00','germany'))+
-
-	createCard('02/12', 'sexta',
-	  createGame('south korea', '12:00', 'portugal')+
-	  createGame('ghana', '12:00', 'uruguay')+
-	  createGame('serbia', '16:00', 'switzerland')+ 
-	  createGame('cameroon','16:00','brazil'))
-}
-*/
-function busca_cotacao(){
-   get_token();
-}
-</script>
-<body onLoad="busca_cotacao()">  
-	<nav class="navbar navbar-expand-lg bg-light">
-	  <div class="container-fluid">
-		<a class="navbar-brand" href="#">Rpassosfranco</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		  <span class="navbar-toggler-icon"></span>
-		</button>  
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-			<li class="nav-item">
-			  <a class="nav-link active" aria-current="page" href="#">Home</a>
-			</li>
-		  </ul>
-		  <form class="d-flex" role="search">
-			<input class="form-control me-2" type="search" placeholder="Procurar" aria-label="Search">
-			<button class="btn btn-outline-success" type="submit">Procura</button>
-		  </form>
-		</div>
-	  </div>
-	</nav>
-	<div id="result"></div>
+<!--<body onLoad="get_token()">  -->
+	<body>
+	<div id="result" style="color: #FFFFFF"></div>
 	<br>
 	<div class="container-fluid" id="app-container" style="padding: 30px">
 	  <div class="row">
@@ -472,5 +211,30 @@ function busca_cotacao(){
     </div>
     -->
 
-</body>
+	 <!-- App Header Template -->
+	 <script id="app-header-template" type="text/x-handlebars-template">
+        <div id="app-header-bar" class="app-top-bar">
+           <div class="app-logo"><img src="{{img_logo}}" /></div>
+       </div>
+     </script>
+
+	 <!-- Left Nav View Template -->
+	 <script id="left-nav-template" type="text/x-handlebars-template">
+        <div id="left-nav" class="leftnav-main-container">
+            <div id="left-nav-list-container" class="leftnav-menulist-expanded">
+                <div id="left-nav-scrolling-list" class="leftnav-menu-scrolling-list">
+                    {{#each leftNavItems}}
+                    <div class="leftnav-list-item-container">
+                        <div class="leftnav-list-item-static">
+                            {{this}}
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+     </script>
+
+	 
+	</body>
 </html>
