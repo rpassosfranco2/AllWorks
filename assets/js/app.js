@@ -95,20 +95,28 @@ function monta_resultado(data){
 		var gp_time = '#grupo'+object["group"];
 		
 
-		
-		
-        if (parseInt(object["id"]) > '16'){
+		if (parseInt(object["id"]) > '16'){
             continue; 
         }
+
 
         style_css = "";
         if (object["time_elapsed"] == 'finished'){
             style_css = "background-color:#01fe4d"; 
         }
+        if (object["time_elapsed"] == 'h1'){
+            style_css = "background-color:#ffff00"; 
+        }
+        if (object["time_elapsed"] == 'hf'){
+            style_css = "background-color:#ffff00"; 
+        }
+        if (object["time_elapsed"] == 'h2 '){
+            style_css = "background-color:#ffff00"; 
+        }
 
-        
 
 		var data_jogo  = object["local_date"];
+        data_jogo = new Date(data_jogo+' GMT+03').toLocaleString('pt-BR')
 
 		var home_name  = object["home_team_en"];
 		var home_flag  = object["home_flag"];
