@@ -1,5 +1,71 @@
 proxy = 'https://cors-anywhere.herokuapp.com/';
 
+function createDb() {
+    var db_name = 'allWords';
+    var db_version = '1.0';
+    var db_describe = 'Jobs AllWorks';
+    var db_size = 2048;
+    var db = openDatabase(db_name, db_version, db_describe, db_size, function(db) {
+        console.log(db);
+        console.log("Banco de dados aberto com sucesso! Ou criado pela primeira vez!");
+        createTable(db);
+    });
+
+    return db;
+}
+
+function createTable(db) {
+    db.transaction(function(tx) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS tbl_resultados (id unique, json_data)', [], function(transaction, result) {
+            console.log(result);
+            console.log('Tabela criada com sucesso!');
+        }, function(transaction, error) {
+            console.log(error);
+        });
+    }, transError, transSuccess);
+}
+
+function transError(t, e) {
+    console.log(t);
+    console.log(e);
+    console.error("Error occured ! Code:" + e.code + " Message : " + e.message);
+}
+
+function transSuccess(t, r) {
+    console.info("Transaction completed Successfully!");
+    console.log(t);
+    console.log(r);
+}
+
+function insertRecords(id, json_data) {
+    var db = createDb();
+
+    if (db) {
+        db.transaction(function (tx) { 
+            tx.executeSql('INSERT INTO tbl_resultados (id, json_data) VALUES ('+id+', "'+json_data+'")'); 
+            console.log('Dados inserido');
+         }); 
+    } else {
+        console.log('No Database man! wait creating it for you!');
+        createDb();
+    }
+}
+
+function selectRecords(){
+    var db = createDb();
+
+    db.transaction(function (tx) { 
+        tx.executeSql('SELECT * FROM tbl_resultados', [], function (tx, results) { 
+           var len = results.rows.length, i; 
+           for (i = 0; i < len; i++) { 
+              console.log(results.rows.item(i) ); 
+           } 
+       
+        }, null); 
+     });
+
+}
+
 function get_token(){
     $('#result').empty().html('AUTENTICANDO...');
 	
@@ -65,6 +131,8 @@ function busca_dados(token){
           success: function(result) {
                dados =  result.data;
                $('#result').empty().html('MONTANDO GRADE...');
+               var id_generico = Math.floor(Math.random() * (1 - 100 + 1) ) + 1;
+               insertRecords(id_generico,dados);
                monta_resultado(dados);
           },
           error: function (xhr) {
