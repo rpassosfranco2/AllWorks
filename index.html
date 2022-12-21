@@ -5,17 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script>
-	/**
-	 * This script will set the 'initial-scale' value on the viewport metatag
-	 * The scale is used to fit the template on Kindle Fire mobile devices
-	 * This must be handled in the head of the document because the scale
-	 * is not affected once the page finishes loading
-	 */
-	var vp = document.getElementById('viewport');
-	var initialScale = Math.max(screen.width, screen.height)/1920;
-	vp.setAttribute('content','width=device-width, initial-scale=' + initialScale + ', maximum-scale=' + initialScale, + 'minimum-scale=' + initialScale);
-  </script>
   <link rel="preconnect" 
         href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
@@ -25,16 +14,13 @@
 		integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" 
 		crossorigin="anonymous">
   <link rel="stylesheet" 
-        href="css/reset.css">
+        href="assets/css/reset.css">
   <link rel="stylesheet" type="text/css" href="firetv.css" inline>
   <link rel="stylesheet" 
-        href="css/styles.css">
+        href="assets/css/styles.css">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
           integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
           crossorigin="anonymous"></script>
-  <script src="assets/js/model-json.js"></script>
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/init.js"></script>
 </head>
 <style>
 	img {
@@ -42,196 +28,47 @@
 	}
 	
 	body {
-      background-color: #141313;
-    }
+            background-color: #141313;
+      }
+      .conteudo {
+            width:1740px;
+            height:950px;
+            border:4px solid #999;
+            background:transparent url(assets/img/raposa.jpg);
+	}
+      .moldura-dois {
+            width: 1780px; 
+            border:8px inset #5f6632;
+            padding:15px;
+            background: #b1b1c3;
+	}
+      .moldura-um {
+            width: 1900px; /*404+8+8(bordas)+15+15(paddings)*/
+            border:20px inset #5d738b;
+            padding:25px;
+            background: transparent url(/bg-um.gif);
+	}
 </style>
 	<body>
-		<div id="result" style="color: #FFFFFF"></div>
-		<br>
 		<div class="container-fluid" id="app-container">
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="card">
-				<div class="card-body">
-					<div class="row">
-					<div class="col-sm-12">
-						<h5 class="card-title">GRUPO A</h5>
-					</div>
-					</div>
-					<div class="row">
-					<div class="col-sm-12">
-						<ul class="list-group" id="grupoA">
-						<!--<li class="list-group-item">An item</li>-->
-						</ul>
-					</div>
-					</div>
-				</div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="card">
-				<div class="card-body">
-					<div class="row">
-					<div class="col-sm-12">
-						<h5 class="card-title">GRUPO B</h5>
-					</div>
-					</div>
-					<div class="row">
-					<div class="col-sm-12">
-						<ul class="list-group" id="grupoB">
-						</ul>
-					</div>
-					</div>
-				</div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="card">
-				<div class="card-body">
-					<div class="row">
-					<div class="col-sm-12">
-						<h5 class="card-title">GRUPO C</h5>
-					</div>
-					</div>
-					<div class="row">
-					<div class="col-sm-12">
-						<ul class="list-group" id="grupoC">
-						</ul>
-					</div>
-					</div>
-				</div>
-				</div>
-			</div>
-		</div>
-		<br>
-		
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="card">
-				<div class="card-body">
-					<div class="row">
-					<div class="col-sm-12">
-						<h5 class="card-title">GRUPO D</h5>
-					</div>
-					</div>
-					<div class="row">
-					<div class="col-sm-12">
-						<ul class="list-group" id="grupoD">
-						</ul>
-					</div>
-					</div>
-				</div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="card">
-				<div class="card-body">
-					<div class="row">
-					<div class="col-sm-12">
-						<h5 class="card-title">GRUPO E</h5>
-					</div>
-					</div>
-					<div class="row">
-					<div class="col-sm-12">
-						<ul class="list-group" id="grupoE">
-						</ul>
-					</div>
-					</div>
-				</div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="card">
-				<div class="card-body">
-					<div class="row">
-					<div class="col-sm-12">
-						<h5 class="card-title">GRUPO F</h5>
-					</div>
-					</div>
-					<div class="row">
-					<div class="col-sm-12">
-						<ul class="list-group" id="grupoF">
-						</ul>
-					</div>
-					</div>
-				</div>
-				</div>
-			</div>
-		</div>
-		<br>
-		
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="card">
-				<div class="card-body">
-					<div class="row">
-					<div class="col-sm-12">
-						<h5 class="card-title">GRUPO G</h5>
-					</div>
-					</div>
-					<div class="row">
-					<div class="col-sm-12">
-						<ul class="list-group" id="grupoG">	
-						</ul>
-					</div>
-					</div>
-				</div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="card">
-				<div class="card-body">
-					<div class="row">
-					<div class="col-sm-12">
-						<h5 class="card-title">GRUPO H</h5>
-					</div>
-					</div>
-					<div class="row">
-					<div class="col-sm-12">
-						<ul class="list-group" id="grupoH">
-						</ul>
-					</div>
-					</div>
-				</div>
-				</div>
-			</div>
-		</div>
+			<div class="row">
+				<div class="col-xs-2">
 
-		</div>
-		
-		<!-- Spinner for startup -->
-	<!--	
-		<div id="app-overlay" class="app-overlay-container">
-			<div id="overlay-message" class="app-overlay-message"></div>
-		</div>
-		<div id="app-loading-spinner" class="content-load-spinner">
-		</div>
-	-->
-		
+                        </div>
+                        <div class="col-xs-8">
+                              <div class="moldura-um">
+                                    <div class="moldura-dois">
+                                          <div class="conteudo">
 
-		<!-- App Header Template -->
-		<!--
-		<script id="app-header-template" type="text/x-handlebars-template">
-			<div id="app-header-bar" class="app-top-bar">
-			<div class="app-logo"><img src="{{img_logo}}" /></div>
-		</div>
-		</script>
-		-->
-		<!-- Left Nav View Template -->
-		<script id="left-nav-template" type="text/x-handlebars-template">
-			<div id="left-nav" class="leftnav-main-container">
-				<div id="left-nav-list-container" class="leftnav-menulist-expanded">
-					<div id="left-nav-scrolling-list" class="leftnav-menu-scrolling-list">
-						{{#each leftNavItems}}
-						<div class="leftnav-list-item-container">
-							<div class="leftnav-list-item-static">
-								{{this}}
-							</div>
-						</div>
-						{{/each}}
-					</div>
-				</div>
+
+                                          </div>
+                                    </div>
+                              </div>    
+                        </div>
+                        <div class="col-xs-2">
+
+                        </div>
 			</div>
-		</script>
+		</div>
 	</body>
 </html>
